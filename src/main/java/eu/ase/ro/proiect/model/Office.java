@@ -16,8 +16,8 @@ public class Office extends Space{
         super();
     }
 
-    public Office(Long id, String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
-        super(id, name, type, size, isAvailable, price, priceUnit);
+    public Office(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
+        super(name, type, size, isAvailable, price, priceUnit);
         this.noOfDesks = noOfDesks;
         this.numberOfSeats = numberOfSeats;
         this.hasAC = hasAC;

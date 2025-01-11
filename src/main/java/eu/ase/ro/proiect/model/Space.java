@@ -31,8 +31,7 @@ public abstract class Space {
     public Space() {
     }
 
-    public Space(Long id, String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit) {
-        this.id = id;
+    public Space(String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit) {
         this.name = name;
         this.type = type;
         this.size = size;
