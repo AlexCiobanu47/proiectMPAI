@@ -6,6 +6,7 @@ import eu.ase.ro.proiect.enums.PriceUnit;
 import eu.ase.ro.proiect.model.ConferenceRoom;
 import eu.ase.ro.proiect.model.Office;
 import eu.ase.ro.proiect.model.Space;
+import eu.ase.ro.proiect.service.RoomFilterService;
 import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -51,6 +52,22 @@ public class ProiectApplication {
 		}
 
 		System.out.println("Total estimated revenue: " + revenueVisitor.getTotalRevenue());
+
+		// Aplicam Specification pentru a verifica salile disponibile
+		spaces.add(new ConferenceRoom("Full Conference Room", "ConferenceRoom", 80.0f, false, 400.0f, PriceUnit.PER_HOUR, true, false, 30));
+
+		RoomFilterService roomFilterService = new RoomFilterService();
+		List<Space> availableRooms = roomFilterService.filterAvailableRooms(spaces);
+
+		System.out.println("\nSpecification:");
+		System.out.println("Total number of spaces: " + spaces.size());
+		System.out.println("Total number of available spaces: " + availableRooms.size());
+		System.out.println("Available rooms:");
+		for(Space availableRoom : availableRooms) {
+			System.out.println(availableRoom.getName());
+		}
+
+
 	}
 
 }
