@@ -45,4 +45,9 @@ public class ConferenceRoom extends Space{
     public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
     }
+
+    @Override
+    public void accept(SpaceVisitor visitor) {
+        visitor.visit(this);
+    }
 }

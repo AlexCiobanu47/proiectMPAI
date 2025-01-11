@@ -104,6 +104,8 @@ public abstract class Space {
         this.priceUnit = priceUnit;
     }
 
+    public abstract void accept(SpaceVisitor visitor);
+
     @Override
     public String toString() {
         return "Space{" +
@@ -117,3 +119,5 @@ public abstract class Space {
                 '}';
     }
 }
+
+

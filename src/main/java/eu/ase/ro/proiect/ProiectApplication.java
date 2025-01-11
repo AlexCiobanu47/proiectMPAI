@@ -14,23 +14,37 @@ public class ProiectApplication {
 //		test commit
 		SpringApplication.run(ProiectApplication.class, args);
 
-		// Creăm un Office simplu
+		// cream office simplu
 		Office office = new Office("Premium Office", "Office", 50.0f, 3, true, 200.0f, PriceUnit.PER_HOUR, 5, 10, true, true);
 
 		System.out.println("Before decoration:");
 		System.out.println(office);
 
-		// Adăugăm Wi-Fi
+		// add wife
 		WiFiDecorator officeWithWiFi = new WiFiDecorator(office, 50.0f);
 
-		// Adăugăm parcare
+		// add parcare
 		ParkingDecorator officeWithWiFiAndParking = new ParkingDecorator(officeWithWiFi, 30.0f);
 
 		System.out.println("\nAfter adding Wi-Fi and Parking:");
 		System.out.println(officeWithWiFiAndParking);
 
-		// Preț total
+		// pret total
 		System.out.println("\nTotal price: " + officeWithWiFiAndParking.getPrice());
+
+		// cream o lista de spatii
+		List<Space> spaces = new ArrayList<>();
+		spaces.add(new Office("Standard Office", "Office", 30.0f, 2, true, 150.0f, PriceUnit.PER_DAY, 3, 6, true, false));
+		spaces.add(new ConferenceRoom("Large Conference Room", "ConferenceRoom", 100.0f, true, 500.0f, PriceUnit.PER_HOUR, true, true, 50));
+		spaces.add(new Office("Premium Office", "Office", 50.0f, 3, true, 250.0f, PriceUnit.PER_HOUR, 5, 10, true, true));
+
+		// aplicam visitor pt calcul venit
+		RevenueCalculatorVisitor revenueVisitor = new RevenueCalculatorVisitor();
+		for (Space space : spaces) {
+			space.accept(revenueVisitor);
+		}
+
+		System.out.println("Total estimated revenue: " + revenueVisitor.getTotalRevenue());
 	}
 
 }

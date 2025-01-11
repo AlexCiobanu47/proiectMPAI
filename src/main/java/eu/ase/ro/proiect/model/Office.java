@@ -56,4 +56,9 @@ public class Office extends Space{
         this.hasPrinterAccess = hasPrinterAccess;
     }
 
+    @Override
+    public void accept(SpaceVisitor visitor) {
+        visitor.visit(this);
+    }
+
 }
