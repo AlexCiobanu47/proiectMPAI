@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ProiectApplication {
 
 	public static void main(String[] args) {
+//		test commit
 		SpringApplication.run(ProiectApplication.class, args);
 	}
 
