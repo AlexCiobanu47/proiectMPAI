@@ -3,9 +3,15 @@ package eu.ase.ro.proiect;
 import eu.ase.ro.proiect.decorator.ParkingDecorator;
 import eu.ase.ro.proiect.decorator.WiFiDecorator;
 import eu.ase.ro.proiect.enums.PriceUnit;
+import eu.ase.ro.proiect.model.ConferenceRoom;
 import eu.ase.ro.proiect.model.Office;
+import eu.ase.ro.proiect.model.Space;
+import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class ProiectApplication {

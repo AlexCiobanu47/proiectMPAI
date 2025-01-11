@@ -1,6 +1,7 @@
 package eu.ase.ro.proiect.decorator;
 
 import eu.ase.ro.proiect.model.Space;
+import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 
 public class WiFiDecorator extends SpaceDecorator {
     private final float wifiPrice;
@@ -13,6 +14,11 @@ public class WiFiDecorator extends SpaceDecorator {
     @Override
     public float getPrice() {
         return decoratedSpace.getPrice() + wifiPrice; // Adăugăm costul Wi-Fi-ului la prețul existent
+    }
+
+    @Override
+    public void accept(RevenueCalculatorVisitor visitor) {
+
     }
 
     @Override

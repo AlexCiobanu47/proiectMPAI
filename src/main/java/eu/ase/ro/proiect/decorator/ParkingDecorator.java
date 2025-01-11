@@ -1,6 +1,7 @@
 package eu.ase.ro.proiect.decorator;
 
 import eu.ase.ro.proiect.model.Space;
+import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 
 public class ParkingDecorator extends SpaceDecorator {
     private final float parkingPrice;
@@ -13,6 +14,11 @@ public class ParkingDecorator extends SpaceDecorator {
     @Override
     public float getPrice() {
         return decoratedSpace.getPrice() + parkingPrice; // Adăugăm costul parcării la prețul existent
+    }
+
+    @Override
+    public void accept(RevenueCalculatorVisitor visitor) {
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package eu.ase.ro.proiect.model;
 
 import eu.ase.ro.proiect.enums.PriceUnit;
+import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
@@ -104,7 +105,7 @@ public abstract class Space {
         this.priceUnit = priceUnit;
     }
 
-    public abstract void accept(SpaceVisitor visitor);
+    public abstract void accept(RevenueCalculatorVisitor visitor);
 
     @Override
     public String toString() {

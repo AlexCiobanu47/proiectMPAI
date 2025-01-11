@@ -1,6 +1,7 @@
 package eu.ase.ro.proiect.model;
 
 import eu.ase.ro.proiect.enums.PriceUnit;
+import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -57,7 +58,7 @@ public class Office extends Space{
     }
 
     @Override
-    public void accept(SpaceVisitor visitor) {
+    public void accept(RevenueCalculatorVisitor visitor) {
         visitor.visit(this);
     }
 
