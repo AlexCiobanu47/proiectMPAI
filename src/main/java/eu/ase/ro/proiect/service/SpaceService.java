@@ -1,11 +1,14 @@
 package eu.ase.ro.proiect.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import eu.ase.ro.proiect.enums.PriceUnit;
 import eu.ase.ro.proiect.factories.SpaceFactory;
 import eu.ase.ro.proiect.model.ConferenceRoom;
 import eu.ase.ro.proiect.model.Office;
+import eu.ase.ro.proiect.model.Space;
 import eu.ase.ro.proiect.repository.SpaceRepository;
 import jakarta.transaction.Transactional;
 
@@ -13,19 +16,73 @@ import jakarta.transaction.Transactional;
 public class SpaceService {
     private final SpaceFactory spaceFactory;
     private final SpaceRepository spaceRepository;
-    
-    public SpaceService(SpaceFactory spaceFactory, SpaceRepository spaceRepository) {
+    private final RoomFilterService roomFilterService;
+
+    public SpaceService(SpaceFactory spaceFactory, SpaceRepository spaceRepository, RoomFilterService roomFilterService) {
         this.spaceFactory = spaceFactory;
         this.spaceRepository = spaceRepository;
+        this.roomFilterService = roomFilterService;
     }
+    
     @Transactional
-    public Office createOffice(String name, String type, float size, boolean isAvailable, int floor, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
-        Office office = spaceFactory.createOffice(name, type, size, isAvailable, floor, price, priceUnit, noOfDesks, numberOfSeats, hasAC, hasPrinterAccess);
-        spaceRepository.save(office);
-        return office;
+    public Office createOffice(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
+        Office office = spaceFactory.createOffice(name, type, size, floor, isAvailable, price, priceUnit, noOfDesks, numberOfSeats, hasAC, hasPrinterAccess);
+        try{
+            spaceRepository.save(office);
+            return office;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
+    
     @Transactional
-    public ConferenceRoom createConferenceRoom(String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit, boolean hasProjector, boolean hasWhiteboard, int numberOfSeats) {
-        return spaceFactory.createConferenceRoom(name, type, size, isAvailable, price, priceUnit, hasProjector, hasWhiteboard, numberOfSeats);
+    public ConferenceRoom createConferenceRoom(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, boolean hasProjector, boolean hasWhiteboard, int numberOfSeats) {
+        ConferenceRoom conferenceRoom = spaceFactory.createConferenceRoom(name, type, size, floor, isAvailable, price, priceUnit, hasProjector, hasWhiteboard, numberOfSeats);
+        try{
+            spaceRepository.save(conferenceRoom);
+            return conferenceRoom;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public List<Space> getAll() {
+        return spaceRepository.findAll()
+                .stream()
+                .toList();
+    }
+
+    public List<Space> getAvailable() {
+        return roomFilterService.filterAvailableRooms(spaceRepository.findAll());
+    }
+
+    public List<Space> getRented() {
+        return roomFilterService.filterRentedRooms(spaceRepository.findAll());
+    }
+
+    public Space findById(Long id) {
+        return spaceRepository.findById(id).orElseThrow(() -> new RuntimeException("Space not found"));
+    }
+
+    public void rentSpace(Long spaceId) {
+        try {
+            Space space = spaceRepository.findById(spaceId).orElseThrow(() -> new RuntimeException("Space not found"));
+            if (!space.isAvailable()) {
+                throw new RuntimeException("Space is not available");
+            }
+            space.setAvailable(false);
+            spaceRepository.save(space);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public int calculateRevenue() {
+        List <Space> spaces = getRented();
+        int revenue = 0;
+        for (Space space : spaces) {
+            revenue += space.getPrice();
+        }
+        return revenue;
     }
 }

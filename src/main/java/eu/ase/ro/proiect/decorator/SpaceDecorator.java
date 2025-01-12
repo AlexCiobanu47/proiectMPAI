@@ -6,7 +6,7 @@ public abstract class SpaceDecorator extends Space {
     protected Space decoratedSpace;
 
     public SpaceDecorator(Space decoratedSpace) {
-        super(decoratedSpace.getName(), decoratedSpace.getType(), decoratedSpace.getSize(),
+        super(decoratedSpace.getName(), decoratedSpace.getType(), decoratedSpace.getSize(), decoratedSpace.getFloor(),
                 decoratedSpace.isAvailable(), decoratedSpace.getPrice(), decoratedSpace.getPriceUnit());
         this.decoratedSpace = decoratedSpace;
     }
