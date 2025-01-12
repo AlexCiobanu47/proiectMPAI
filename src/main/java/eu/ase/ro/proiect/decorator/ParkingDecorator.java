@@ -13,7 +13,7 @@ public class ParkingDecorator extends SpaceDecorator {
 
     @Override
     public float getPrice() {
-        return decoratedSpace.getPrice() + parkingPrice; // Adăugăm costul parcării la prețul existent
+        return decoratedSpace.getPrice() + parkingPrice; // add the cost of parking to the existing price
     }
 
     @Override

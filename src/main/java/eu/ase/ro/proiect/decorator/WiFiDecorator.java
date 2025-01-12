@@ -13,7 +13,7 @@ public class WiFiDecorator extends SpaceDecorator {
 
     @Override
     public float getPrice() {
-        return decoratedSpace.getPrice() + wifiPrice; // Adăugăm costul Wi-Fi-ului la prețul existent
+        return decoratedSpace.getPrice() + wifiPrice; // add the cost of Wi-Fi to the existing price
     }
 
     @Override
