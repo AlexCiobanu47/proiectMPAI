@@ -53,11 +53,11 @@ public class SpaceService {
     }
 
     public List<Space> getAvailable() {
-        // return spaceRepository.findAll()
-        //         .stream()
-        //         .filter(Space::isAvailable)
-        //         .toList();
         return roomFilterService.filterAvailableRooms(spaceRepository.findAll());
+    }
+
+    public List<Space> getRented() {
+        return roomFilterService.filterRentedRooms(spaceRepository.findAll());
     }
 
     public Space findById(Long id) {
@@ -75,5 +75,14 @@ public class SpaceService {
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public int calculateRevenue() {
+        List <Space> spaces = getRented();
+        int revenue = 0;
+        for (Space space : spaces) {
+            revenue += space.getPrice();
+        }
+        return revenue;
     }
 }

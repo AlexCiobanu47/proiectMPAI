@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 @Controller
 @RequestMapping("/space")
 public class SpaceController {
@@ -101,4 +100,12 @@ public class SpaceController {
         model.addAttribute("space", space);
         return "spaces/rentSpace";
     }
+
+    @GetMapping("/revenue")
+    public String getRevenue(Model model) {
+        int revenue = spaceService.calculateRevenue();
+        model.addAttribute("revenue", revenue);
+        return "spaces/revenue";
+    }
+    
 }
