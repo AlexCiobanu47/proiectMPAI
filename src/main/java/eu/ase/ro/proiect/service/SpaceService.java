@@ -25,8 +25,8 @@ public class SpaceService {
     }
     
     @Transactional
-    public Office createOffice(String name, String type, float size, boolean isAvailable, int floor, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
-        Office office = spaceFactory.createOffice(name, type, size, isAvailable, floor, price, priceUnit, noOfDesks, numberOfSeats, hasAC, hasPrinterAccess);
+    public Office createOffice(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
+        Office office = spaceFactory.createOffice(name, type, size, floor, isAvailable, price, priceUnit, noOfDesks, numberOfSeats, hasAC, hasPrinterAccess);
         try{
             spaceRepository.save(office);
             return office;
@@ -36,8 +36,8 @@ public class SpaceService {
     }
     
     @Transactional
-    public ConferenceRoom createConferenceRoom(String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit, boolean hasProjector, boolean hasWhiteboard, int numberOfSeats) {
-        ConferenceRoom conferenceRoom = spaceFactory.createConferenceRoom(name, type, size, isAvailable, price, priceUnit, hasProjector, hasWhiteboard, numberOfSeats);
+    public ConferenceRoom createConferenceRoom(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, boolean hasProjector, boolean hasWhiteboard, int numberOfSeats) {
+        ConferenceRoom conferenceRoom = spaceFactory.createConferenceRoom(name, type, size, floor, isAvailable, price, priceUnit, hasProjector, hasWhiteboard, numberOfSeats);
         try{
             spaceRepository.save(conferenceRoom);
             return conferenceRoom;
@@ -57,6 +57,10 @@ public class SpaceService {
                 .stream()
                 .filter(Space::isAvailable)
                 .toList();
+    }
+
+    public Space findById(Long id) {
+        return spaceRepository.findById(id).orElseThrow(() -> new RuntimeException("Space not found"));
     }
 
     public void rentSpace(Long spaceId) {

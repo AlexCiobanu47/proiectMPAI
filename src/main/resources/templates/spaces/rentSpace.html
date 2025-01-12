@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rent Space Confirmation</title>
+</head>
+<body>
+    <h1>Space Rented Successfully</h1>
+    <p>Thank you for renting the space. Here are the details:</p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <td th:text="${space.name}">Name</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td th:text="${space.type}">Type</td>
+        </tr>
+        <tr>
+            <th>Size</th>
+            <td th:text="${space.size}">Size</td>
+        </tr>
+        <tr>
+            <th>Floor</th>
+            <td th:text="${space.floor}">Floor</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td th:text="${space.price}">Price</td>
+        </tr>
+        <tr>
+            <th>Price Unit</th>
+            <td th:text="${space.priceUnit.name()}">Price Unit</td>
+        </tr>
+    </table>
+    <a th:href="@{/space/all}">Back to all spaces</a>
+</body>
+</html>

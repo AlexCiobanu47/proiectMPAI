@@ -19,12 +19,12 @@ public class OfficeRequest {
     public OfficeRequest() {
     }
 
-    public OfficeRequest(String name, String type, float size, boolean isAvailable, int floor, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
+    public OfficeRequest(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, int noOfDesks, int numberOfSeats, boolean hasAC, boolean hasPrinterAccess) {
         this.name = name;
         this.type = type;
         this.size = size;
-        this.isAvailable = isAvailable;
         this.floor = floor;
+        this.isAvailable = isAvailable;
         this.price = price;
         this.priceUnit = priceUnit;
         this.noOfDesks = noOfDesks;

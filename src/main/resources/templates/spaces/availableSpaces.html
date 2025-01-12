@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Available Spaces</title>
+</head>
+<body>
+    <h1>Available spaces</h1>
+    <table>
+        <thead>
+            <tr>
+                <thead th:text="'Showing ' + ${spaces.size()} + ' spaces'"></thead>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Floor</th>
+                <th>Availability</th>
+                <th>Price</th>
+                <th>Price Unit</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="space : ${spaces}">
+                <td th:text="${space.name}">Name</td>
+                <td th:text="${space.type}">Type</td>
+                <td th:text="${space.size}">Size</td>
+                <td th:text="${space.floor}">Floor</td>
+                <td th:text="${space.available ? 'Available' : 'Rented'}">Availability</td>
+                <td th:text="${space.price}">Price</td>
+                <td th:text="${space.priceUnit.name()}">Price Unit</td>
+                <td>
+                    <form th:action="@{'/space/rent/'+${space.id}}" method="post">
+                        <button type="submit"><i>Rent space</i></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

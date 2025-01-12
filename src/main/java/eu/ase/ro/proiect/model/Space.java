@@ -32,10 +32,11 @@ public abstract class Space {
     public Space() {
     }
 
-    public Space(String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit) {
+    public Space(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit) {
         this.name = name;
         this.type = type;
         this.size = size;
+        this.floor = floor;
         this.isAvailable = isAvailable;
         this.price = price;
         this.priceUnit = priceUnit;

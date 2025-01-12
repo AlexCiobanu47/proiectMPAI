@@ -16,8 +16,8 @@ public class ConferenceRoom extends Space{
         super();
     }
 
-    public ConferenceRoom(String name, String type, float size, boolean isAvailable, float price, PriceUnit priceUnit, boolean hasProjector, boolean hasWhiteboard, int numberOfSeats) {
-        super(name, type, size, isAvailable, price, priceUnit);
+    public ConferenceRoom(String name, String type, float size, int floor, boolean isAvailable, float price, PriceUnit priceUnit, boolean hasProjector, boolean hasWhiteboard, int numberOfSeats) {
+        super(name, type, size, floor, isAvailable, price, priceUnit);
         this.hasProjector = hasProjector;
         this.hasWhiteboard = hasWhiteboard;
         this.numberOfSeats = numberOfSeats;

@@ -9,25 +9,33 @@ import eu.ase.ro.proiect.service.SpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/space")
 public class SpaceController {
 
     @Autowired
     private SpaceService spaceService;
 
+    @GetMapping("/create/office")
+    public String createOfficePage() {
+        return "spaces/createOffice";
+    }
+
     @PostMapping("/create/office")
     public ResponseEntity<Space> createOffice(@RequestBody OfficeRequest request) {
+        System.out.println(request);
         Office office = spaceService.createOffice(
             request.getName(),
             request.getType(),
             request.getSize(),
-            request.isAvailable(),
             request.getFloor(),
+            request.isAvailable(),
             request.getPrice(),
             request.getPriceUnit(),
             request.getNoOfDesks(),
@@ -44,6 +52,7 @@ public class SpaceController {
             request.getName(),
             request.getType(),
             request.getSize(),
+            request.getFloor(),
             request.isAvailable(),
             request.getPrice(),
             request.getPriceUnit(),
@@ -55,20 +64,24 @@ public class SpaceController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Space>> getAllSpaces() {
+    public String getAllSpaces(Model model) {
         List<Space> spaces = spaceService.getAll();
-        return new ResponseEntity<>(spaces, HttpStatus.OK);
+        model.addAttribute("spaces", spaces);
+        return "spaces/allSpaces";
     }
 
     @GetMapping("/available")
-    public ResponseEntity<List<Space>> getAvailableSpaces() {
+    public String getAvailableSpaces(Model model) {
         List<Space> spaces = spaceService.getAvailable();
-        return new ResponseEntity<>(spaces, HttpStatus.OK);
+        model.addAttribute("spaces", spaces);
+        return "spaces/availableSpaces";
     }
 
     @PostMapping("/rent/{spaceId}")
-    public ResponseEntity<String> rentSpace(@PathVariable Long spaceId) {
+    public String rentSpace(@PathVariable Long spaceId, Model model) {
+        Space space = spaceService.findById(spaceId);
         spaceService.rentSpace(spaceId);
-        return new ResponseEntity<>("rented space with id " + spaceId, HttpStatus.OK);
+        model.addAttribute("space", space);
+        return "spaces/rentSpace";
     }
 }
