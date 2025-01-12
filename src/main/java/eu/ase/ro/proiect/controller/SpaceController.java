@@ -1,30 +1,28 @@
 package eu.ase.ro.proiect.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import eu.ase.ro.proiect.dto.ConferenceRoomRequest;
 import eu.ase.ro.proiect.dto.OfficeRequest;
 import eu.ase.ro.proiect.model.ConferenceRoom;
 import eu.ase.ro.proiect.model.Office;
-import eu.ase.ro.proiect.repository.SpaceRepository;
+import eu.ase.ro.proiect.model.Space;
 import eu.ase.ro.proiect.service.SpaceService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/space")
 public class SpaceController {
-    private final SpaceService spaceService;
 
-    public SpaceController(SpaceService spaceService, SpaceRepository spaceRepository) {
-        this.spaceService = spaceService;
-    }
+    @Autowired
+    private SpaceService spaceService;
 
-    @PostMapping("/office")
-    public Office createOffice(@RequestBody OfficeRequest request) {
-        return spaceService.createOffice(
+    @PostMapping("/create/office")
+    public ResponseEntity<Space> createOffice(@RequestBody OfficeRequest request) {
+        Office office = spaceService.createOffice(
             request.getName(),
             request.getType(),
             request.getSize(),
@@ -37,10 +35,11 @@ public class SpaceController {
             request.isHasAC(),
             request.isHasPrinterAccess()
         );
+        return new ResponseEntity<>(office, HttpStatus.CREATED);
     }
 
-    @PostMapping("/conferenceroom")
-    public ConferenceRoom creatConferenceRoom(@RequestBody ConferenceRoomRequest request) {
+    @PostMapping("/create/conferenceroom")
+    public ResponseEntity<Space> createConferenceRoom(@RequestBody ConferenceRoomRequest request) {
         ConferenceRoom conferenceRoom = spaceService.createConferenceRoom(
             request.getName(),
             request.getType(),
@@ -52,7 +51,24 @@ public class SpaceController {
             request.isHasWhiteboard(),
             request.getNumberOfSeats()
         );
-        return conferenceRoom;
+        return new ResponseEntity<>(conferenceRoom, HttpStatus.CREATED);
     }
-    
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Space>> getAllSpaces() {
+        List<Space> spaces = spaceService.getAll();
+        return new ResponseEntity<>(spaces, HttpStatus.OK);
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Space>> getAvailableSpaces() {
+        List<Space> spaces = spaceService.getAvailable();
+        return new ResponseEntity<>(spaces, HttpStatus.OK);
+    }
+
+    @PostMapping("/rent/{spaceId}")
+    public ResponseEntity<String> rentSpace(@PathVariable Long spaceId) {
+        spaceService.rentSpace(spaceId);
+        return new ResponseEntity<>("rented space with id " + spaceId, HttpStatus.OK);
+    }
 }
