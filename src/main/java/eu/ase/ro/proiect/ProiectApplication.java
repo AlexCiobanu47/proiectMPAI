@@ -7,6 +7,9 @@ import eu.ase.ro.proiect.model.ConferenceRoom;
 import eu.ase.ro.proiect.model.Office;
 import eu.ase.ro.proiect.model.Space;
 import eu.ase.ro.proiect.service.RoomFilterService;
+import eu.ase.ro.proiect.specification.AvailabilitySpecification;
+import eu.ase.ro.proiect.specification.HasProjectorSpecification;
+import eu.ase.ro.proiect.specification.Specification;
 import eu.ase.ro.proiect.visitor.RevenueCalculatorVisitor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -67,6 +70,12 @@ public class ProiectApplication {
 			System.out.println(availableRoom.getName());
 		}
 
+		System.out.println("\nAvailable spaces with projector: ");
+		Specification<Space> availableAndWithProjector = new AvailabilitySpecification().and(new HasProjectorSpecification());
+		spaces.stream()
+				.filter(availableAndWithProjector::isSatisfiedBy)
+				.map(Space::getName)
+				.forEach(System.out::println);
 
 	}
 
