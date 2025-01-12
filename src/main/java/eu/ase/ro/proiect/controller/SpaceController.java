@@ -2,6 +2,7 @@ package eu.ase.ro.proiect.controller;
 
 import eu.ase.ro.proiect.dto.ConferenceRoomRequest;
 import eu.ase.ro.proiect.dto.OfficeRequest;
+import eu.ase.ro.proiect.enums.PriceUnit;
 import eu.ase.ro.proiect.model.ConferenceRoom;
 import eu.ase.ro.proiect.model.Office;
 import eu.ase.ro.proiect.model.Space;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 @RequestMapping("/space")
@@ -22,8 +25,15 @@ public class SpaceController {
     @Autowired
     private SpaceService spaceService;
 
+    @GetMapping("/")
+    public String index() {
+        return "spaces/index";
+    }
+
     @GetMapping("/create/office")
-    public String createOfficePage() {
+    public String createOfficePage(Model model) {
+        model.addAttribute("officeRequest", new OfficeRequest());
+        model.addAttribute("priceUnits", PriceUnit.values());
         return "spaces/createOffice";
     }
 
@@ -35,7 +45,7 @@ public class SpaceController {
             request.getType(),
             request.getSize(),
             request.getFloor(),
-            request.isAvailable(),
+            request.getIsAvailable(),
             request.getPrice(),
             request.getPriceUnit(),
             request.getNoOfDesks(),
@@ -46,6 +56,13 @@ public class SpaceController {
         return new ResponseEntity<>(office, HttpStatus.CREATED);
     }
 
+    @GetMapping("/create/conferenceroom")
+    public String createConferenceRoomPage(Model model) {
+        model.addAttribute("conferenceroomRequest", new ConferenceRoomRequest());
+        model.addAttribute("priceUnits", PriceUnit.values());
+        return "spaces/createConferenceRoom";
+    }
+
     @PostMapping("/create/conferenceroom")
     public ResponseEntity<Space> createConferenceRoom(@RequestBody ConferenceRoomRequest request) {
         ConferenceRoom conferenceRoom = spaceService.createConferenceRoom(
@@ -53,7 +70,7 @@ public class SpaceController {
             request.getType(),
             request.getSize(),
             request.getFloor(),
-            request.isAvailable(),
+            request.getIsAvailable(),
             request.getPrice(),
             request.getPriceUnit(),
             request.isHasProjector(),

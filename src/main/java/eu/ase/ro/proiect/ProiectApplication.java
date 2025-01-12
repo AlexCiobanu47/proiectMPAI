@@ -21,51 +21,51 @@ public class ProiectApplication {
 //		test commit
 		SpringApplication.run(ProiectApplication.class, args);
 
-		// cream office simplu
-		Office office = new Office("Premium Office", "Office", 50.0f, 3, true, 200.0f, PriceUnit.PER_HOUR, 5, 10, true, true);
+		// // cream office simplu
+		// Office office = new Office("Premium Office", "Office", 50.0f, 3, true, 200.0f, PriceUnit.PER_HOUR, 5, 10, true, true);
 
-		System.out.println("Before decoration:");
-		System.out.println(office);
+		// System.out.println("Before decoration:");
+		// System.out.println(office);
 
-		// add wife
-		WiFiDecorator officeWithWiFi = new WiFiDecorator(office, 50.0f);
+		// // add wife
+		// WiFiDecorator officeWithWiFi = new WiFiDecorator(office, 50.0f);
 
-		// add parcare
-		ParkingDecorator officeWithWiFiAndParking = new ParkingDecorator(officeWithWiFi, 30.0f);
+		// // add parcare
+		// ParkingDecorator officeWithWiFiAndParking = new ParkingDecorator(officeWithWiFi, 30.0f);
 
-		System.out.println("\nAfter adding Wi-Fi and Parking:");
-		System.out.println(officeWithWiFiAndParking);
+		// System.out.println("\nAfter adding Wi-Fi and Parking:");
+		// System.out.println(officeWithWiFiAndParking);
 
-		// pret total
-		System.out.println("\nTotal price: " + officeWithWiFiAndParking.getPrice());
+		// // pret total
+		// System.out.println("\nTotal price: " + officeWithWiFiAndParking.getPrice());
 
-		// cream o lista de spatii
-		List<Space> spaces = new ArrayList<>();
-		spaces.add(new Office("Standard Office", "Office", 30.0f, 2, true, 150.0f, PriceUnit.PER_DAY, 3, 6, true, false));
-		spaces.add(new ConferenceRoom("Large Conference Room", "ConferenceRoom", 100.0f, true, 500.0f, PriceUnit.PER_HOUR, true, true, 50));
-		spaces.add(new Office("Premium Office", "Office", 50.0f, 3, true, 250.0f, PriceUnit.PER_HOUR, 5, 10, true, true));
+		// // cream o lista de spatii
+		// List<Space> spaces = new ArrayList<>();
+		// spaces.add(new Office("Standard Office", "Office", 30.0f, 2, true, 150.0f, PriceUnit.PER_DAY, 3, 6, true, false));
+		// spaces.add(new ConferenceRoom("Large Conference Room", "ConferenceRoom", 100.0f, true, 500.0f, PriceUnit.PER_HOUR, true, true, 50));
+		// spaces.add(new Office("Premium Office", "Office", 50.0f, 3, true, 250.0f, PriceUnit.PER_HOUR, 5, 10, true, true));
 
-		// aplicam visitor pt calcul venit
-		RevenueCalculatorVisitor revenueVisitor = new RevenueCalculatorVisitor();
-		for (Space space : spaces) {
-			space.accept(revenueVisitor);
-		}
+		// // aplicam visitor pt calcul venit
+		// RevenueCalculatorVisitor revenueVisitor = new RevenueCalculatorVisitor();
+		// for (Space space : spaces) {
+		// 	space.accept(revenueVisitor);
+		// }
 
-		System.out.println("Total estimated revenue: " + revenueVisitor.getTotalRevenue());
+		// System.out.println("Total estimated revenue: " + revenueVisitor.getTotalRevenue());
 
-		// Aplicam Specification pentru a verifica salile disponibile
-		spaces.add(new ConferenceRoom("Full Conference Room", "ConferenceRoom", 80.0f, false, 400.0f, PriceUnit.PER_HOUR, true, false, 30));
+		// // Aplicam Specification pentru a verifica salile disponibile
+		// spaces.add(new ConferenceRoom("Full Conference Room", "ConferenceRoom", 80.0f, false, 400.0f, PriceUnit.PER_HOUR, true, false, 30));
 
-		RoomFilterService roomFilterService = new RoomFilterService();
-		List<Space> availableRooms = roomFilterService.filterAvailableRooms(spaces);
+		// RoomFilterService roomFilterService = new RoomFilterService();
+		// List<Space> availableRooms = roomFilterService.filterAvailableRooms(spaces);
 
-		System.out.println("\nSpecification:");
-		System.out.println("Total number of spaces: " + spaces.size());
-		System.out.println("Total number of available spaces: " + availableRooms.size());
-		System.out.println("Available rooms:");
-		for(Space availableRoom : availableRooms) {
-			System.out.println(availableRoom.getName());
-		}
+		// System.out.println("\nSpecification:");
+		// System.out.println("Total number of spaces: " + spaces.size());
+		// System.out.println("Total number of available spaces: " + availableRooms.size());
+		// System.out.println("Available rooms:");
+		// for(Space availableRoom : availableRooms) {
+		// 	System.out.println(availableRoom.getName());
+		// }
 
 
 	}

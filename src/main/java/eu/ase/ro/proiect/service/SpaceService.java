@@ -2,8 +2,6 @@ package eu.ase.ro.proiect.service;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import eu.ase.ro.proiect.enums.PriceUnit;
@@ -18,10 +16,12 @@ import jakarta.transaction.Transactional;
 public class SpaceService {
     private final SpaceFactory spaceFactory;
     private final SpaceRepository spaceRepository;
-    
-    public SpaceService(SpaceFactory spaceFactory, SpaceRepository spaceRepository) {
+    private final RoomFilterService roomFilterService;
+
+    public SpaceService(SpaceFactory spaceFactory, SpaceRepository spaceRepository, RoomFilterService roomFilterService) {
         this.spaceFactory = spaceFactory;
         this.spaceRepository = spaceRepository;
+        this.roomFilterService = roomFilterService;
     }
     
     @Transactional
@@ -53,10 +53,11 @@ public class SpaceService {
     }
 
     public List<Space> getAvailable() {
-        return spaceRepository.findAll()
-                .stream()
-                .filter(Space::isAvailable)
-                .toList();
+        // return spaceRepository.findAll()
+        //         .stream()
+        //         .filter(Space::isAvailable)
+        //         .toList();
+        return roomFilterService.filterAvailableRooms(spaceRepository.findAll());
     }
 
     public Space findById(Long id) {

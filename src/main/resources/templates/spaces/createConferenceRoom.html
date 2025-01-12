@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Conference Room</title>
+</head>
+<body>
+    <h1>Create Conference Room</h1>
+    <form id="createConferenceRoomForm" th:object="${conferenceroomRequest}">
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <label for="spaceName">Name</label>
+                    <input id="spaceName" name="name" type="text" th:field="*{name}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="type">Type</label>
+                    <input id="type" name="type" type="text" th:field="*{type}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="size">Size</label>
+                    <input id="size" name="size" type="number" step="1" th:field="*{size}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="floor">Floor</label>
+                    <input id="floor" name="floor" type="number" step="1" th:field="*{floor}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="price">Price</label>
+                    <input id="price" name="price" type="number" step="1" th:field="*{price}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="priceUnit">Price Unit</label>
+                    <select id="priceUnit" name="priceUnit" th:field="*{priceUnit}" required>
+                        <option th:each="unit : ${priceUnits}" th:value="${unit}" th:text="${unit}">Price Unit</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="hasProjector">Has Projector</label>
+                    <input id="hasProjector" name="hasProjector" type="checkbox" th:field="*{hasProjector}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="hasWhiteboard">Has Whiteboard</label>
+                    <input id="hasWhiteboard" name="hasWhiteboard" type="checkbox" th:field="*{hasWhiteboard}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="numberOfSeats">Number of Seats</label>
+                    <input id="numberOfSeats" name="numberOfSeats" type="number" step="1" th:field="*{numberOfSeats}" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="isAvailable">Is available</label>
+                    <input id="isAvailable" name="isAvailable" type="checkbox" th:field="*{isAvailable}"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="submitForm()">Create Conference Room</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            const form = document.getElementById('createConferenceRoomForm');
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+            jsonData['hasProjector'] = document.getElementById('hasProjector').checked;
+            jsonData['hasWhiteboard'] = document.getElementById('hasWhiteboard').checked;
+
+            fetch('/space/create/conferenceroom', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = '/space/all';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
